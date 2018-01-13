@@ -19,6 +19,6 @@ public class IndexController {
 
     @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity index() {
-        return new ResponseEntity(customerService.getCustomerInfo().get(), HttpStatus.OK);
+        return new ResponseEntity(customerService.getCustomerInfo(1).get(), HttpStatus.OK);
     }
 }
