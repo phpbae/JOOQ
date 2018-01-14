@@ -14,4 +14,13 @@ public class ProductDTO extends CustomerDTO{
     private String productName;
     private int customerId;
 
+
+    public void setCustomerDTOFiledId(int customerIdNum){
+        super.setId(customerIdNum);
+    }
+
+    public int getCustomerDTOFiledId(){
+        return super.getId();
+    }
+
 }

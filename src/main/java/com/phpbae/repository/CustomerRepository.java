@@ -15,7 +15,6 @@ import java.util.Optional;
 
 import static com.phpbae.jooq.model.tables.Customer.CUSTOMER;
 import static com.phpbae.jooq.model.tables.Product.PRODUCT;
-import static org.jooq.impl.DSL.row;
 
 @Repository
 public class CustomerRepository {
@@ -29,31 +28,58 @@ public class CustomerRepository {
     }
 
     public Optional<CustomerDTO> customerFindOne(int id) {
-        return dslContext.select(CUSTOMER.ID, CUSTOMER.NAME, CUSTOMER.EMAIL).from(CUSTOMER).where(CUSTOMER.ID.eq(id)).fetchOptionalInto(CustomerDTO.class);
+        return dslContext.select(CUSTOMER.ID, CUSTOMER.NAME, CUSTOMER.EMAIL)
+                .from(CUSTOMER)
+                .where(CUSTOMER.ID.eq(id))
+                .fetchOptionalInto(CustomerDTO.class);
     }
 
     public List<CustomerDTO> customerFindOne2(int id) {
-        return dslContext.select(CUSTOMER.ID, CUSTOMER.NAME, CUSTOMER.EMAIL).from(CUSTOMER).where(CUSTOMER.ID.eq(id)).fetch().into(CustomerDTO.class);
+        return dslContext.select(CUSTOMER.ID, CUSTOMER.NAME, CUSTOMER.EMAIL)
+                .from(CUSTOMER)
+                .where(CUSTOMER.ID.eq(id))
+                .fetch()
+                .into(CustomerDTO.class);
     }
 
-    public List<CustomerDTO> customerFindAll(){
-        return dslContext.select(CUSTOMER.ID, CUSTOMER.NAME, CUSTOMER.EMAIL).from(CUSTOMER).fetch().into(CustomerDTO.class);
+    public List<CustomerDTO> customerFindAll() {
+        return dslContext.select(CUSTOMER.ID, CUSTOMER.NAME, CUSTOMER.EMAIL)
+                .from(CUSTOMER)
+                .fetch()
+                .into(CustomerDTO.class);
     }
 
-    public List<CustomerDTO> customerFindAll2(){
-        return dslContext.selectFrom(CUSTOMER).fetch().into(CustomerDTO.class);
+    public List<CustomerDTO> customerFindAll2() {
+        return dslContext.selectFrom(CUSTOMER)
+                .fetch()
+                .into(CustomerDTO.class);
     }
 
-    public void customerFindJoinProduct(){
+    public List<ProductDTO> customerFindJoinProduct() {
+        return dslContext.select()
+                .from(CUSTOMER)
+                .join(PRODUCT).on(CUSTOMER.ID.eq(PRODUCT.CUSTOMER_ID))
+                .fetch()
+                .into(ProductDTO.class);
+    }
 
-         List<ProductDTO> productDTOList =  dslContext.select().from(CUSTOMER).join(PRODUCT).on(CUSTOMER.ID.eq(PRODUCT.CUSTOMER_ID)).fetch().into(ProductDTO.class);
-
+    public Result<Record> customerFindJoinProduct2() {
+        return dslContext.select()
+                .from(CUSTOMER)
+                .join(PRODUCT).on(CUSTOMER.ID.eq(PRODUCT.CUSTOMER_ID))
+                .fetch();
     }
 
     @Transactional
-    public void insertCustomerInfo(){
-        dslContext.insertInto(CUSTOMER).columns(CUSTOMER.NAME, CUSTOMER.EMAIL).values("업데이트이름!", "zzzz5555@naver.com").execute();
-        dslContext.insertInto(CUSTOMER, CUSTOMER.NAME, CUSTOMER.EMAIL).values("업데이트의 대왕!", "xxxxxx@naver.com").execute();
+    public void insertCustomerInfo() {
+        dslContext.insertInto(CUSTOMER)
+                .columns(CUSTOMER.NAME, CUSTOMER.EMAIL)
+                .values("업데이트이름!", "zzzz5555@naver.com")
+                .execute();
+
+        dslContext.insertInto(CUSTOMER, CUSTOMER.NAME, CUSTOMER.EMAIL)
+                .values("업데이트의 대왕!", "xxxxxx@naver.com")
+                .execute();
 
         //multiple row
         dslContext.insertInto(CUSTOMER, CUSTOMER.NAME, CUSTOMER.EMAIL)
@@ -63,7 +89,7 @@ public class CustomerRepository {
     }
 
     @Transactional
-    public Integer insertReturnIdxCustomerInfo(){
+    public Integer insertReturnIdxCustomerInfo() {
         Result<?> result = dslContext.insertInto(CUSTOMER, CUSTOMER.NAME, CUSTOMER.EMAIL)
                 .values("return insert", "return insert@naver.com")
                 .returning(CUSTOMER.ID, CUSTOMER.NAME, CUSTOMER.EMAIL)
@@ -72,7 +98,7 @@ public class CustomerRepository {
     }
 
     @Transactional
-    public void updateCustomerInfo(){
+    public void updateCustomerInfo() {
         dslContext.update(CUSTOMER)
                 .set(CUSTOMER.NAME, "전설의죽음")
                 .set(CUSTOMER.EMAIL, "전설의이메일@naver.com")
@@ -81,8 +107,10 @@ public class CustomerRepository {
     }
 
     @Transactional
-    public void deleteCustomerInfo(int id){
-        dslContext.delete(CUSTOMER).where(CUSTOMER.ID.eq(id)).execute();
+    public void deleteCustomerInfo(int id) {
+        dslContext.delete(CUSTOMER)
+                .where(CUSTOMER.ID.eq(id))
+                .execute();
     }
 
 

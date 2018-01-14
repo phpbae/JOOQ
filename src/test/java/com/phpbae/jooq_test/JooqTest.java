@@ -2,7 +2,9 @@ package com.phpbae.jooq_test;
 
 
 import com.phpbae.DTO.CustomerDTO;
+import com.phpbae.DTO.ProductDTO;
 import com.phpbae.service.CustomerService;
+import org.jooq.util.derby.sys.Sys;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +37,25 @@ public class JooqTest {
         Assert.assertNotNull(customerDTOList2);
 
         //select join
-        customerService.getCustomersInfoByJoin();
+        List<ProductDTO> productDTOList = customerService.getCustomersInfoByJoin();
+        for(ProductDTO dto : productDTOList){
+            System.out.println(dto.getId());
+            System.out.println(dto.getProductName());
+            System.out.println(dto.getCustomerId());
+            System.out.println(dto.getName());
+            System.out.println(dto.getEmail());
+            System.out.println(dto.getCustomerDTOFiledId());
+        }
+        System.out.println("------------------------------------------------------");
+        List<ProductDTO> productDTOList2 = customerService.getCustomersInfoByJoin2();
+        for(ProductDTO dto : productDTOList2){
+            System.out.println(dto.getId());
+            System.out.println(dto.getProductName());
+            System.out.println(dto.getCustomerId());
+            System.out.println(dto.getName());
+            System.out.println(dto.getEmail());
+            System.out.println(dto.getCustomerDTOFiledId());
+        }
 
         //insert test
         customerService.insertCustomerInfo();
