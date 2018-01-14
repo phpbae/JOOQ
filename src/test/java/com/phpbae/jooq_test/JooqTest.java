@@ -4,7 +4,6 @@ package com.phpbae.jooq_test;
 import com.phpbae.DTO.CustomerDTO;
 import com.phpbae.DTO.ProductDTO;
 import com.phpbae.service.CustomerService;
-import org.jooq.util.derby.sys.Sys;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,7 +23,7 @@ public class JooqTest {
 
 
     @Test
-    public void 고객서비스CRUDTest(){
+    public void 고객서비스SelectTest() {
 
         //select test
         Optional<CustomerDTO> customerDTO = customerService.getCustomerInfo(1);
@@ -38,7 +37,7 @@ public class JooqTest {
 
         //select join
         List<ProductDTO> productDTOList = customerService.getCustomersInfoByJoin();
-        for(ProductDTO dto : productDTOList){
+        for (ProductDTO dto : productDTOList) {
             System.out.println(dto.getId());
             System.out.println(dto.getProductName());
             System.out.println(dto.getCustomerId());
@@ -48,7 +47,7 @@ public class JooqTest {
         }
         System.out.println("------------------------------------------------------");
         List<ProductDTO> productDTOList2 = customerService.getCustomersInfoByJoin2();
-        for(ProductDTO dto : productDTOList2){
+        for (ProductDTO dto : productDTOList2) {
             System.out.println(dto.getId());
             System.out.println(dto.getProductName());
             System.out.println(dto.getCustomerId());
@@ -57,6 +56,10 @@ public class JooqTest {
             System.out.println(dto.getCustomerDTOFiledId());
         }
 
+    }
+
+    @Test
+    public void 고객서비스InsertTest(){
         //insert test
         customerService.insertCustomerInfo();
         Integer insertedIdx = customerService.insertCustomerInfo2();
@@ -64,16 +67,22 @@ public class JooqTest {
         Assert.assertEquals("name : ", "return insert", insertedCustomerDTO.get().getName());
         Assert.assertEquals("email : ", "return insert@naver.com", insertedCustomerDTO.get().getEmail());
 
+    }
 
+    @Test
+    public void 고객서비스UpdateTest(){
         //update test
         customerService.updateCustomerInfo();
         Optional<CustomerDTO> updatedCustomerDTO = customerService.getCustomerInfo(1);
         Assert.assertEquals("name : ", "전설의죽음", updatedCustomerDTO.get().getName());
         Assert.assertEquals("email : ", "전설의이메일@naver.com", updatedCustomerDTO.get().getEmail());
+    }
 
+    @Test
+    public void 고객서비스DeleteTest(){
         //delete test
-        customerService.deleteCustomerInfo(insertedIdx);
-        Optional<CustomerDTO> deletedCustomerDTO = customerService.getCustomerInfo(insertedIdx);
+        customerService.deleteCustomerInfo(3);
+        Optional<CustomerDTO> deletedCustomerDTO = customerService.getCustomerInfo(3);
         Assert.assertNull(deletedCustomerDTO.orElse(null));
     }
 
