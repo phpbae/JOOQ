@@ -8,6 +8,7 @@ URL : https://www.jooq.org/
 - basic embed jooq version <br> ```<jooq.version>3.9.6</jooq.version>```
 - jooq version overriding
 <br>
+
 ```
 <dependency>
  <groupId>org.jooq</groupId>
@@ -25,6 +26,7 @@ URL : https://www.jooq.org/
  <version>3.10.2</version>
 </dependency>
 ```
+
 - require DataBase -> mariaDB
 - DB schema Name -> test
 
